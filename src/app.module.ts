@@ -1,13 +1,26 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { HttpErrorFilter } from './shared/http-error.filter';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IdeaModule } from './idea/idea.module';
+import { LoggingInterception } from './shared/logging.tnerceptor';
 
 @Module({
   imports: [TypeOrmModule.forRoot(), IdeaModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpErrorFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterception,
+    },
+  ],
 })
 export class AppModule {}
