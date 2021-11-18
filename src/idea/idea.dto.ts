@@ -10,10 +10,12 @@ export class IdeaDTO {
 }
 
 export class IdeaRO {
-  id?: string;
-  updated: Date;
+  id: string;
   created: Date;
+  updated: Date;
   idea: string;
   description: string;
   author: UserRO;
+  upvotes?: number;
+  downvotes?: number;
 }

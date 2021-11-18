@@ -3,6 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -28,8 +30,12 @@ export class UserEntity {
   @Column('text')
   password: string;
 
-  @OneToMany((type) => IdeaEntity, (idea) => idea.author)
+  @OneToMany((type) => IdeaEntity, (idea) => idea.author, { cascade: true })
   ideas: IdeaEntity[];
+
+  @ManyToMany((type) => IdeaEntity, { cascade: true })
+  @JoinTable()
+  bookmarks: IdeaEntity[];
 
   @BeforeInsert()
   async hashPassword() {
@@ -38,7 +44,7 @@ export class UserEntity {
 
   toResponseObject(showToken = true): UserRO {
     const { id, created, username, token } = this;
-    const responseObject: any = { id, created, username };
+    const responseObject: UserRO = { id, created, username };
 
     if (showToken) {
       responseObject.token = token;
@@ -46,6 +52,10 @@ export class UserEntity {
 
     if (this.ideas) {
       responseObject.ideas = this.ideas;
+    }
+
+    if (this.bookmarks) {
+      responseObject.bookmarks = this.bookmarks;
     }
     return responseObject;
   }
