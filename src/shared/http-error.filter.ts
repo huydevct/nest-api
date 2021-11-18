@@ -22,8 +22,15 @@ export class HttpErrorFilter implements ExceptionFilter {
       timestamp: new Date().toLocaleDateString(),
       path: request.url,
       method: request.method,
-      message: exception.message || null,
+      message:
+        status === HttpStatus.INTERNAL_SERVER_ERROR
+          ? exception.message || null
+          : 'Internal server error',
     };
+
+    if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
+      console.log(exception);
+    }
 
     Logger.error(
       `${request.method} ${request.url}`,
