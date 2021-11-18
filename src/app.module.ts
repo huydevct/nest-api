@@ -7,9 +7,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IdeaModule } from './idea/idea.module';
 import { LoggingInterception } from './shared/logging.tnerceptor';
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), IdeaModule],
+  imports: [TypeOrmModule.forRoot(), IdeaModule, UserModule],
   controllers: [AppController],
   providers: [
     AppService,

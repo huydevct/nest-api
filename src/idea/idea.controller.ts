@@ -13,7 +13,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 
-@Controller('idea')
+@Controller('api/idea')
 export class IdeaController {
   private logger = new Logger('IdeaController');
   constructor(private ideaService: IdeaService) {}
