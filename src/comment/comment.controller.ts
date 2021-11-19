@@ -9,6 +9,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -19,13 +20,13 @@ export class CommentController {
   constructor(private commentService: CommentService) {}
 
   @Get('idea/:id')
-  showCommentByIdea(@Param('id') idea: string) {
-    return this.commentService.showByIdea(idea);
+  showCommentByIdea(@Param('id') idea: string, @Query('page') page: number) {
+    return this.commentService.showByIdea(idea, page);
   }
 
   @Get('user/:id')
-  showCommentByUser(@Param('id') user: string) {
-    return this.commentService.showByUser(user);
+  showCommentByUser(@Param('id') user: string, @Query('page') page: number) {
+    return this.commentService.showByUser(user, page);
   }
 
   @Post('idea/:id')
